@@ -44,7 +44,9 @@ Contributor(s):
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>Card.h</itemPath>
+      <itemPath>Dealer.h</itemPath>
       <itemPath>Deck.h</itemPath>
+      <itemPath>Game.h</itemPath>
       <itemPath>Player.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -74,12 +76,18 @@ Contributor(s):
         <linkerTool>
           <linkerDynSerch>
             <pElem>.</pElem>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
           </linkerDynSerch>
         </linkerTool>
       </compileType>
       <item path="Card.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Dealer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Deck.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Game.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Player.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -108,12 +116,18 @@ Contributor(s):
         <linkerTool>
           <linkerDynSerch>
             <pElem>.</pElem>
+            <pElem>.</pElem>
+            <pElem>.</pElem>
           </linkerDynSerch>
         </linkerTool>
       </compileType>
       <item path="Card.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Dealer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Deck.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Game.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Player.h" ex="false" tool="3" flavor2="0">
       </item>

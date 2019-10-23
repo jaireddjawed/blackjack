@@ -14,7 +14,13 @@ class Card {
 public:
     string name;
     int value;
+    
+    void displayCard();
 };
+
+void Card::displayCard() {
+    
+}
 
 #endif /* CARD_H */
 

@@ -1,8 +1,8 @@
 /* 
  * File:   Deck.h
- * Author: jairedjawed
+ * Author: Jaired Jawed
  *
- * Created on October 20, 2019, 3:28 PM
+ * Created on October 20, 2019, 2:01 PM
  */
 
 #ifndef DECK_H
@@ -10,24 +10,27 @@
 
 #include <map>
 #include <list>
-#include <iterator>
+#include <vector>
+#include <algorithm>
 #include <stdlib.h>
 #include "Card.h"
 
 class Deck {
 public:
-    list<Card *> cards;
     // a map of cards and their respective values
     // examples, the card name "2", would have a value of 2
     // and "Ace" gets a value of 11
     map<string, int> cardTypes;
-    void setupDeck();
-    void shuffleDeck();
+    list<Card *> cards;
 
-    // initializes deck
+    // initializes Deck
     Deck();
+    static int getRandomNum(int);
+    void setupDeck(int);
+    void shuffleDeck();
 };
 
+// push all cardTypes to the map
 Deck::Deck() {
     cardTypes.insert(pair<string, int>("2", 2));
     cardTypes.insert(pair<string, int>("3", 3));
@@ -45,32 +48,38 @@ Deck::Deck() {
     cardTypes.insert(pair<string, int>("Ace", 11));
 }
 
-// creates a deck of 52 cards from the card types
-void Deck::setupDeck()
-{
-    map<string, int>::iterator cardType;
+// generates a random number for shuffling the cards
+int Deck::getRandomNum(int i) { 
+    return rand() % i; 
+}
 
-    for (cardType = cardTypes.begin(); cardType != cardTypes.end(); ++cardType)
+// creates a deck from the map cardTypes based on the number of decks that the user enters
+void Deck::setupDeck(int numDecks) {
+    // there are four cards with the same number per deck
+    int numCards = numDecks * 4;
+    map<string, int>::iterator cardType;
+    
+    cardType = cardTypes.begin();
+    while (cardType != cardTypes.end())
     {
-        // add 4 of each card to the deck
-        for (int numCards = 1; numCards <= 4; numCards++)
+        for (int i = 1; i <= numCards; i++)
         {
             Card *card = new Card;
             card->name = cardType->first;
             card->value = cardType->second;
             cards.push_back(card);
         }
+        ++cardType;
     }
 }
 
-void Deck::shuffleDeck()
-{
-    list<Card *>::iterator card;
-
-    for (card = cards.begin(); card != cards.end(); ++card)
-    {
-        cout << *card->name << endl;
-    }
+// copies the deck from a list to a vector so it can be randomly sorted
+void Deck::shuffleDeck() {
+    vector<Card *> copiedList(cards.begin(), cards.end());
+    random_shuffle(copiedList.begin(), copiedList.end(), Deck::getRandomNum);
+    
+    cards.clear();
+    copy(copiedList.begin(), copiedList.end(), back_inserter(cards));
 }
 
 #endif /* DECK_H */
