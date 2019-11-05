@@ -15,12 +15,26 @@ public:
     string name;
     int value;
     
-    void displayCard();
+    void setName(string);
+    void setValue(int);
+    string getName();
+    int getValue();
 };
 
-void Card::displayCard() {
-    
+void Card::setName(string name) {
+    this->name = name;
+}
+
+void Card::setValue(int value) {
+    this->value = value;
+}
+
+string Card::getName() {
+    return name;
+}
+
+int Card::getValue() {
+    return value;
 }
 
 #endif /* CARD_H */
-

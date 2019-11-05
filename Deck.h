@@ -8,30 +8,35 @@
 #ifndef DECK_H
 #define DECK_H
 
-#include <map>
-#include <list>
-#include <vector>
 #include <algorithm>
-#include <stdlib.h>
+#include <vector>
+#include <cstdlib>
+#include <stack>
+#include <map>
 #include "Card.h"
+using namespace std;
 
 class Deck {
-public:
+private:
     // a map of cards and their respective values
     // examples, the card name "2", would have a value of 2
     // and "Ace" gets a value of 11
     map<string, int> cardTypes;
-    list<Card *> cards;
-
-    // initializes Deck
-    Deck();
     static int getRandomNum(int);
+public:
+    stack<Card *> cards;
+    void setupCardTypes();
     void setupDeck(int);
     void shuffleDeck();
 };
 
+// generates a random number for shuffling the cards
+int Deck::getRandomNum(int i) { 
+    return rand() % i; 
+}
+
 // push all cardTypes to the map
-Deck::Deck() {
+void Deck::setupCardTypes() {
     cardTypes.insert(pair<string, int>("2", 2));
     cardTypes.insert(pair<string, int>("3", 3));
     cardTypes.insert(pair<string, int>("4", 4));
@@ -41,16 +46,10 @@ Deck::Deck() {
     cardTypes.insert(pair<string, int>("8", 8));
     cardTypes.insert(pair<string, int>("9", 9));
     cardTypes.insert(pair<string, int>("10", 10));
-
     cardTypes.insert(pair<string, int>("Jack", 10));
     cardTypes.insert(pair<string, int>("Queen", 10));
     cardTypes.insert(pair<string, int>("King", 10));
     cardTypes.insert(pair<string, int>("Ace", 11));
-}
-
-// generates a random number for shuffling the cards
-int Deck::getRandomNum(int i) { 
-    return rand() % i; 
 }
 
 // creates a deck from the map cardTypes based on the number of decks that the user enters
@@ -59,28 +58,33 @@ void Deck::setupDeck(int numDecks) {
     int numCards = numDecks * 4;
     map<string, int>::iterator cardType;
     
-    cardType = cardTypes.begin();
-    while (cardType != cardTypes.end())
-    {
-        for (int i = 1; i <= numCards; i++)
-        {
-            Card *card = new Card;
+    for (cardType = cardTypes.begin(); cardType != cardTypes.end(); ++cardType) {
+        for (int i = 1; i <= numCards; i++) {
+            Card* card = new Card;
             card->name = cardType->first;
             card->value = cardType->second;
-            cards.push_back(card);
+            cards.push(card);
         }
-        ++cardType;
     }
 }
 
-// copies the deck from a list to a vector so it can be randomly sorted
+// randomly shuffles the created deck
 void Deck::shuffleDeck() {
-    vector<Card *> copiedList(cards.begin(), cards.end());
-    random_shuffle(copiedList.begin(), copiedList.end(), Deck::getRandomNum);
+    vector <Card *> shuffledCards;
+
+    // copy card stack to vector and empty stack
+    while (!cards.empty()) {
+        shuffledCards.push_back(cards.top());
+        cards.pop();
+    }
     
-    cards.clear();
-    copy(copiedList.begin(), copiedList.end(), back_inserter(cards));
+    // randomly shuffle card vector
+    random_shuffle(shuffledCards.begin(), shuffledCards.end(), Deck::getRandomNum);
+    
+    // add cards back to stack
+    for (int i = 0; i < shuffledCards.size(); i++) {
+        cards.push(shuffledCards[i]);
+    }
 }
 
 #endif /* DECK_H */
-
