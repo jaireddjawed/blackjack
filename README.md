@@ -17,3 +17,9 @@ The players win by getting a blackjack without the dealer getting one, not busti
 
 
 <h2>Summary</h2>
+<ul>
+ <li>Project Size: > 750 lines</li>
+ <li>Utilizes the STL libarary by creating a list of players, stack of cards, a map of card names</li>
+ <li>Players are iterated through multiple times for them to create their account, and add a wager</li>
+ <li>In the end, algorithm is used to swap players into their order by lowest-to-highest score</li>
+</ul>
