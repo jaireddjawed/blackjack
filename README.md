@@ -1,11 +1,15 @@
 # Blackjack Final
 
-Blackjack, also known as 21, is a comparing card game between one or more players and the dealer, where each player competes against the dealer.
-It is played with at least one deck of cards. The objective of the game is to beat the dealer in one of the following ways:
- - Get 21 points on the first two cards (called a blackjack)
- - Reach a final score higher than the dealer without exceeding 21
- - Let the dealer exceed 21 when they hit additional cards (they bust)
-
-
+<h2>Introduction</h2>
+ Blackjack, also known as twenty-one, is a card game where one or more players compare their cards against the dealer. It is played with at least one deck of cards. The objective of the game is to beat the dealer in one of the following ways:
  
+<ul>
+ <li>Their first two cards are worth twenty-one points (called a blackjack)</li>
+ <li>Reach a final score that's higher than the dealer without exceeding twenty-one points</li>
+ <li>Let the dealer exceed twenty-one points when they hit additional cards (the dealer busts)</li>
+</ul>
 
+Each player and the dealer get two cards drawn from the deck. 
+
+
+<h2>Summary</h2>
