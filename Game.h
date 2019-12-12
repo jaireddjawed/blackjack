@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <list>
+#include <vector>
 #include <stdlib.h>
 #include "Deck.h"
 #include "Dealer.h"
@@ -28,31 +29,35 @@ public:
     void pullFundingForDealer();
 };
 
+int totalWinnings = 0;
+
+// recursion to iterate through players list
+bool recursionThroughPlayers(Player* winner, list<Player *>::iterator player, list<Player *>::iterator end) {
+    if (player == end) return true;
+    
+    if (winner->getEmail() != (*player)->getEmail())
+    {
+        float playerWager = (*player)->getWager();
+        totalWinnings += playerWager;
+
+        string email = (*player)->getEmail();
+        string password = (*player)->getPassword();
+        string name = (*player)->getName();
+        float newBalance = (*player)->getAccountBalance() - playerWager;
+
+        (*player)->savePlayerToFile(email, password, name, newBalance);
+    }
+
+    return recursionThroughPlayers(winner, ++player, end);
+}
+
 // gets the winners winnings from other players and the dealer
 void Game::pullFundingForPlayerWinner(Player* winner)
 {
-    int totalWinnings = 0;
+    recursionThroughPlayers(winner, players.begin(), players.end());
 
-    for (player = players.begin(); player != players.end(); ++player)
-    {
-        // get all players except the winner
-        if (winner->getEmail() != (*player)->getEmail())
-        {
-            float playerWager = (*player)->getWager();
-            totalWinnings += playerWager;
- 
-            string email = (*player)->getEmail();
-            string password = (*player)->getPassword();
-            string name = (*player)->getName();
-            float newBalance = (*player)->getAccountBalance() - playerWager;
- 
-            (*player)->savePlayerToFile(email, password, name, newBalance);
-        }
-    }
-    
     // add winnings from dealer
     totalWinnings += dealer->getWager();
-
     // add to winner balance
     winner->addToBalance(totalWinnings);
 }
@@ -70,6 +75,23 @@ void Game::pullFundingForDealer()
 
         (*player)->savePlayerToFile(email, password, name, newBalance);
     }
+}
+
+vector<Player *> sortedPlayersByScore;
+
+// recursively sort through players by score
+void sortPlayersByScore() {
+    if (sortedPlayersByScore.size() == 1) 
+        return;
+  
+    for (int i = 0; i < sortedPlayersByScore.size() - 1; i++) {
+        if (sortedPlayersByScore[i]->checkHand() > sortedPlayersByScore[i+1]->checkHand()) {
+           
+            swap(sortedPlayersByScore[i], sortedPlayersByScore[i+1]);
+        }
+    }  
+    
+    sortPlayersByScore(); 
 }
 
 void Game::start() {
@@ -276,23 +298,28 @@ void Game::start() {
     Player *highestScoredPlayer = new Player;
 
     for (player = players.begin(); player != players.end(); ++player) {
-        cout << (*player)->getName() << "'s total is " << (*player)->checkHand() << "." << endl;
-        
-        if ((*player)->checkHand() <= 21 && (*player)->checkHand() > highestScoredPlayer->checkHand()) {
-            highestScoredPlayer = (*player);
-        }
+        sortedPlayersByScore.push_back((*player));
+    }
+
+    // recursion to sort players by score
+    sortPlayersByScore();
+
+    // list the scores from lowest to highest order
+    for (int i = 0; i < sortedPlayersByScore.size(); i++) {
+        cout << sortedPlayersByScore[i]->getName() << "'s total is " << sortedPlayersByScore[i]->checkHand() << "." << endl;
     }
 
     cout << endl;
     cout << "The dealer's total is " << dealer->checkHand() << "." << endl;
 
+    /*
     if (dealer->checkHand() < highestScoredPlayer->checkHand()) {
         cout << highestScoredPlayer->getName() << "wins!" << endl;
         pullFundingForPlayerWinner(highestScoredPlayer);
     } else {
         cout << "The dealer wins!" << endl;
         pullFundingForDealer();
-    }
+    }*/
 
 }
 
