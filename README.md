@@ -28,3 +28,4 @@ The players win by getting a blackjack without the dealer getting one, not busti
 </ul>
 
 <h2>Flowchart</h2>
+<img src="https://raw.githubusercontent.com/jaireddjawed/blackjack/master/Blank%20Diagram.png" />
