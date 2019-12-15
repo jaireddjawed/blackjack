@@ -80,18 +80,18 @@ void Game::pullFundingForDealer()
 vector<Player *> sortedPlayersByScore;
 
 // recursively sort through players by score
-void sortPlayersByScore() {
-    if (sortedPlayersByScore.size() == 1) 
+void sortPlayersByScore(int n) {
+    if (n == 1) {
         return;
-  
+    }
+
     for (int i = 0; i < sortedPlayersByScore.size() - 1; i++) {
-        if (sortedPlayersByScore[i]->checkHand() > sortedPlayersByScore[i+1]->checkHand()) {
-           
-            swap(sortedPlayersByScore[i], sortedPlayersByScore[i+1]);
+        if (sortedPlayersByScore[i]->checkHand() > sortedPlayersByScore[i + 1]->checkHand()) {
+            swap(sortedPlayersByScore[i], sortedPlayersByScore[i + 1]);
         }
-    }  
-    
-    sortPlayersByScore(); 
+    }
+  
+    sortPlayersByScore(n - 1); 
 }
 
 void Game::start() {
@@ -175,7 +175,12 @@ void Game::start() {
                 cin >> decision;
             }
             
-            if (decision == 'Y') {
+            // If they choose no and don't have a balance, warn them that they need a balance in order to play
+            if (decision == 'N' && player->getAccountBalance() <= 0) {
+                cout << "You need to have a positive account balance in order to play." << endl;
+            }
+            
+            if (decision == 'Y' || player->getAccountBalance() <= 0) {
                 cout << "How much would you like to add to your account balance: ";
                 cin >> accountBalance;
                 
@@ -280,8 +285,9 @@ void Game::start() {
     
     while (dealer->checkHand() < 21) {
         string choice = dealer->makeChoice();
-        
-        if (choice == "hit")
+
+        // dealer must choose to hit if their hand is less than or equal to 17
+        if (dealer->checkHand() <= 17 || choice == "hit")
         {
             dealer->pullCardFromDeck(deck, 1);
             cout << "Dealer chooses to hit." << endl;
@@ -301,8 +307,9 @@ void Game::start() {
         sortedPlayersByScore.push_back((*player));
     }
 
+    int n = sortedPlayersByScore.size();
     // recursion to sort players by score
-    sortPlayersByScore();
+    sortPlayersByScore(n);
 
     // list the scores from lowest to highest order
     for (int i = 0; i < sortedPlayersByScore.size(); i++) {
@@ -312,14 +319,13 @@ void Game::start() {
     cout << endl;
     cout << "The dealer's total is " << dealer->checkHand() << "." << endl;
 
-    /*
     if (dealer->checkHand() < highestScoredPlayer->checkHand()) {
         cout << highestScoredPlayer->getName() << "wins!" << endl;
         pullFundingForPlayerWinner(highestScoredPlayer);
     } else {
         cout << "The dealer wins!" << endl;
         pullFundingForDealer();
-    }*/
+    }
 
 }
 
