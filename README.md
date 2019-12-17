@@ -19,12 +19,11 @@ The players win by getting a blackjack without the dealer getting one, not busti
 <h2>Summary</h2>
 <ul>
  <li>Project Size: > 750 lines</li>
- <li>Utilizes the STL libarary by creating a list of players, stack of cards, a map of card names</li>
+ <li>Utilizes the STL libarary by creating a list of players, stack of cards, a map of card names, and vectors to shuffle the cards</li>
  <li>Players are iterated through multiple times for them to create their account, and add a wager</li>
- <li>In the end, algorithm is used to swap players into their order by lowest-to-highest score</li>
  <li>Recursion is used once to iterate through the list of players</li>
- <li>A recursive sort is used to sort players by score</li>
- <li>A tree and tree traversals are used to create a card deck</li>
+ <li>In the end, A recursive sort is used to sort players by score</li>
+ <li>A Quarternary tree is traversed and saved inside a stack to create the card deck</li>
 </ul>
 
 <h2>Flowchart</h2>
